@@ -406,7 +406,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"txnDate\": \"2021-January-21\",\n  \"amount\": \"500.00\",\n  \"currency\": \"ZAR\",\n  \"remarks\": \"\",\n  \"accountId\": \"2323423343453454\",\n  \"subtxnId\": \"Cash Deposit\",\n  \"payment\": [\n    {\n      \"IBAN\": \"13143123324\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"IBAN\": \"56754312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"IBAN\": \"097864312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n\n      \"IBAN\": \"345344312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"IBAN\": \"34534612323123\",\n      \"amount\": \"100.00\"\n    }\n  ]\n}",
+					"raw": "{\n    \"accountId\": \"99332223423445\",\n    \"requestCode\": \"qereqwe\",\n    \"routingCode\": \"erqeqwe\",\n    \"externalId\": \"reqeqwe\",\n    \"note\": \"note\",\n    \"amount\": {\n        \"amount\": 50,\n        \"currency\": \"EUR\"\n    },\n    \"subTxnId\": \"Internal Payment\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -423,6 +423,111 @@
 						"deposit",
 						"v1",
 						"collection"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "07. Collection API",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminUserToken}}"
+							},
+							{
+								"key": "User",
+								"value": "{{adminUser}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Tenant-Identifier",
+								"value": "{{tenantIdentifier}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"txnDate\": \"2021-January-21\",\n  \"amount\": \"500.00\",\n  \"currency\": \"ZAR\",\n  \"remarks\": \"\",\n  \"accountId\": \"2323423343453454\",\n  \"subtxnId\": \"Cash Deposit\",\n  \"fee\" : \"20.00\",\n  \"payment\": [\n    {\n      \"IBAN\": \"13143123324\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"IBAN\": \"56754312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"IBAN\": \"097864312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n\n      \"IBAN\": \"345344312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"IBAN\": \"34534612323123\",\n      \"amount\": \"100.00\"\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{depositUrl}}/deposit/v1/collection",
+							"protocol": "http",
+							"host": [
+								"{{depositUrl}}"
+							],
+							"path": [
+								"deposit",
+								"v1",
+								"collection"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\n  \"reference\": \"aqsasdas-asdasdq-afrwewe-12123\",\n  \"token\": \"372813\",\n  \"tokenExpiresBy\" : \"2021-January-26\"\n  \n}"
+				}
+			]
+		},
+		{
+			"name": "08. Statement API",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{adminUserToken}}"
+					},
+					{
+						"key": "User",
+						"value": "{{adminUser}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Tenant-Identifier",
+						"value": "{{tenantIdentifier}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{depositUrl}}/deposit/v1/instances/99349593495934599349/statement",
+					"protocol": "http",
+					"host": [
+						"{{depositUrl}}"
+					],
+					"path": [
+						"deposit",
+						"v1",
+						"instances",
+						"99349593495934599349",
+						"statement"
 					]
 				}
 			},
