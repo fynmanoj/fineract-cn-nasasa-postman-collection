@@ -1,0 +1,484 @@
+{
+	"info": {
+		"_postman_id": "5b7143f2-d8a1-4ac7-93a7-d1a11e2952b5",
+		"name": "FinCN-NASASA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "01. LOG IN TENANT ADMIN (operator)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"adminUserToken\", jsonData.accessToken);",
+							"",
+							"const moment = require('moment');",
+							"var timestamp = moment().format(\"YYYY-MM-DD\") + \"T\" + moment().format(\"HH:mm:ss\");",
+							"tests[\"password is not expired\"] = jsonData.passwordExpiration > timestamp;",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Tenant-Identifier",
+						"value": "{{tenantIdentifier}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "http://{{identityUrl}}/identity/v1/token?grant_type=password&username=operator&password={{adminUserPassword}}",
+					"protocol": "http",
+					"host": [
+						"{{identityUrl}}"
+					],
+					"path": [
+						"identity",
+						"v1",
+						"token"
+					],
+					"query": [
+						{
+							"key": "grant_type",
+							"value": "password"
+						},
+						{
+							"key": "username",
+							"value": "operator"
+						},
+						{
+							"key": "password",
+							"value": "{{adminUserPassword}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "02. Get Savings Products",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{adminUserToken}}"
+					},
+					{
+						"key": "User",
+						"value": "{{adminUser}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Tenant-Identifier",
+						"value": "{{tenantIdentifier}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{depositUrl}}/deposit/v1/definitions/",
+					"protocol": "http",
+					"host": [
+						"{{depositUrl}}"
+					],
+					"path": [
+						"deposit",
+						"v1",
+						"definitions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "03.Create customer-Business",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 202\"] = responseCode.code === 202;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{adminUserToken}}"
+					},
+					{
+						"key": "User",
+						"value": "{{adminUser}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Tenant-Identifier",
+						"value": "{{tenantIdentifier}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productIdentifier\" : \"savingsProduct004\",\n    \"accountNumber\" : \"99332223423443\"\n}"
+				},
+				"url": {
+					"raw": "http://{{customerUrl}}/customer/v1/nonperson",
+					"protocol": "http",
+					"host": [
+						"{{customerUrl}}"
+					],
+					"path": [
+						"customer",
+						"v1",
+						"nonperson"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "04.01.Activate customer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 202\"] = responseCode.code === 202;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{adminUserToken}}"
+					},
+					{
+						"key": "User",
+						"value": "{{adminUser}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Tenant-Identifier",
+						"value": "{{tenantIdentifier}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"action\": \"ACTIVATE\"\n}"
+				},
+				"url": {
+					"raw": "http://{{customerUrl}}/customer/v1/customers/customer1/commands",
+					"protocol": "http",
+					"host": [
+						"{{customerUrl}}"
+					],
+					"path": [
+						"customer",
+						"v1",
+						"customers",
+						"customer1",
+						"commands"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "04.02. Activate savings Account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{adminUserToken}}"
+					},
+					{
+						"key": "User",
+						"value": "{{adminUser}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Tenant-Identifier",
+						"value": "{{tenantIdentifier}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{depositUrl}}/deposit/v1/instances/99332223423445?command=ACTIVATE",
+					"protocol": "http",
+					"host": [
+						"{{depositUrl}}"
+					],
+					"path": [
+						"deposit",
+						"v1",
+						"instances",
+						"99332223423445"
+					],
+					"query": [
+						{
+							"key": "command",
+							"value": "ACTIVATE"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "05. Create Sub Txn Type",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{adminUserToken}}"
+					},
+					{
+						"key": "User",
+						"value": "{{adminUser}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Tenant-Identifier",
+						"value": "{{tenantIdentifier}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"identifier\" : \"Test\",\n    \"name\" : \"Test1\",\n    \"description\": \"for testing the feature\",\n    \"cashPayment\": false,\n    \"active\" : true,\n    \"orderPosition\": 0,\n    \"tranType\" : 0,\n    \"ledgerAccount\": \"7013\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{depositUrl}}/deposit/v1/subtxntype",
+					"protocol": "http",
+					"host": [
+						"{{depositUrl}}"
+					],
+					"path": [
+						"deposit",
+						"v1",
+						"subtxntype"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "0.6.01. DEPOSIT to Savings Account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{adminUserToken}}"
+					},
+					{
+						"key": "User",
+						"value": "{{adminUser}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Tenant-Identifier",
+						"value": "{{tenantIdentifier}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"accountId\": \"99332223423445\",\n    \"requestCode\": \"qereqwe\",\n    \"routingCode\": \"erqeqwe\",\n    \"externalId\": \"reqeqwe\",\n    \"note\": \"note\",\n    \"amount\": {\n        \"amount\": 100,\n        \"currency\": \"EUR\"\n    }\n   // , \"subTxnId\": \"Non Cash\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{depositUrl}}/deposit/v1/transaction?action=DEPOSIT",
+					"protocol": "http",
+					"host": [
+						"{{depositUrl}}"
+					],
+					"path": [
+						"deposit",
+						"v1",
+						"transaction"
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "DEPOSIT"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "07. Collection API",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{adminUserToken}}"
+					},
+					{
+						"key": "User",
+						"value": "{{adminUser}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Tenant-Identifier",
+						"value": "{{tenantIdentifier}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"txnDate\": \"2021-January-21\",\n  \"amount\": \"500.00\",\n  \"currency\": \"ZAR\",\n  \"remarks\": \"\",\n  \"accountId\": \"2323423343453454\",\n  \"subtxnId\": \"Cash Deposit\",\n  \"payment\": [\n    {\n      \"IBAN\": \"13143123324\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"IBAN\": \"56754312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"IBAN\": \"097864312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n\n      \"IBAN\": \"345344312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"IBAN\": \"34534612323123\",\n      \"amount\": \"100.00\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{depositUrl}}/deposit/v1/collection",
+					"protocol": "http",
+					"host": [
+						"{{depositUrl}}"
+					],
+					"path": [
+						"deposit",
+						"v1",
+						"collection"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "07. Collection API",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminUserToken}}"
+							},
+							{
+								"key": "User",
+								"value": "{{adminUser}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Tenant-Identifier",
+								"value": "{{tenantIdentifier}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"txnDate\": \"2021-January-21\",\n  \"amount\": \"500.00\",\n  \"currency\": \"ZAR\",\n  \"remarks\": \"\",\n  \"accountId\": \"2323423343453454\",\n  \"subtxnId\": \"Cash Deposit\",\n  \"fee\" : \"20.00\",\n  \"payment\": [\n    {\n      \"IBAN\": \"13143123324\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"IBAN\": \"56754312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"IBAN\": \"097864312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n\n      \"IBAN\": \"345344312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"IBAN\": \"34534612323123\",\n      \"amount\": \"100.00\"\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{depositUrl}}/deposit/v1/collection",
+							"protocol": "http",
+							"host": [
+								"{{depositUrl}}"
+							],
+							"path": [
+								"deposit",
+								"v1",
+								"collection"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\n  \"reference\": \"aqsasdas-asdasdq-afrwewe-12123\",\n  \"token\": \"372813\",\n  \"tokenExpiresBy\" : \"2021-January-26\"\n  \n}"
+				}
+			]
+		}
+	]
+}
