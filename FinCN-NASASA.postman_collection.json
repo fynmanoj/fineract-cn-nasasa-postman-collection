@@ -687,6 +687,102 @@
 					"header": null,
 					"cookie": [],
 					"body": "{\n  \"reference\": \"aqsasdas-asdasdq-afrwewe-12123\",\n  \"token\": \"372813\",\n  \"tokenExpiresBy\" : \"2021-January-26\"\n  \n}"
+				},
+				{
+					"name": "09. Balance API",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminUserToken}}"
+							},
+							{
+								"key": "User",
+								"value": "{{adminUser}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Tenant-Identifier",
+								"value": "{{tenantIdentifier}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{depositUrl}}/deposit/v1/instances/99332223423447/balance",
+							"protocol": "http",
+							"host": [
+								"{{depositUrl}}"
+							],
+							"path": [
+								"deposit",
+								"v1",
+								"instances",
+								"99332223423447",
+								"balance"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 16 Feb 2021 08:28:21 GMT"
+						},
+						{
+							"key": "X-Application-Context",
+							"value": "deposit-v1:2027"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"balance\": 100,\n    \"interest\": 0\n}"
 				}
 			]
 		}
