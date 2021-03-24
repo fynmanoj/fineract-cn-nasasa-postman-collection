@@ -125,7 +125,7 @@
 			"response": []
 		},
 		{
-			"name": "03.Create customer-Business",
+			"name": "03.01.Create customer-Person",
 			"event": [
 				{
 					"listen": "test",
@@ -159,7 +159,59 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"productIdentifier\" : \"savingsProduct004\",\n    \"accountNumber\" : \"99332223423443\"\n}"
+					"raw": "{\n    \"productIdentifier\" : \"savingsProduct004\",\n    \"accountNumber\" : \"99332223423443\",\n    \"isActive\": true\n}"
+				},
+				"url": {
+					"raw": "http://{{customerUrl}}/customer/v1/person",
+					"protocol": "http",
+					"host": [
+						"{{customerUrl}}"
+					],
+					"path": [
+						"customer",
+						"v1",
+						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "03.02.Create customer-Non Person",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 202\"] = responseCode.code === 202;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{adminUserToken}}"
+					},
+					{
+						"key": "User",
+						"value": "{{adminUser}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Tenant-Identifier",
+						"value": "{{tenantIdentifier}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productIdentifier\" : \"savingsProduct004\",\n    \"accountNumber\" : \"99332223423447\",\n    \"isActive\" : true\n}"
 				},
 				"url": {
 					"raw": "http://{{customerUrl}}/customer/v1/nonperson",
@@ -406,7 +458,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"accountId\": \"99332223423445\",\n    \"requestCode\": \"qereqwe\",\n    \"routingCode\": \"erqeqwe\",\n    \"externalId\": \"reqeqwe\",\n    \"note\": \"note\",\n    \"amount\": {\n        \"amount\": 50,\n        \"currency\": \"EUR\"\n    },\n    \"subTxnId\": \"Internal Payment\"\n}",
+					"raw": "{\n  \"txnDate\": \"2021-January-21\",\n  \"amount\": \"500.00\",\n  \"currency\": \"ZAR\",\n  \"remarks\": \"\",\n  \"accountId\": \"2323423343453454\",\n  \"subtxnId\": \"Cash Deposit\",\n  \"fee\" : \"20.00\",\n  \"individualPayments\": [\n    {\n      \"accountNumber\": \"13143123324\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"accountNumber\": \"56754312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"accountNumber\": \"097864312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n\n      \"accountNumber\": \"345344312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"accountNumber\": \"34534612323123\",\n      \"amount\": \"100.00\"\n    }\n  ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -453,7 +505,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"txnDate\": \"2021-January-21\",\n  \"amount\": \"500.00\",\n  \"currency\": \"ZAR\",\n  \"remarks\": \"\",\n  \"accountId\": \"2323423343453454\",\n  \"subtxnId\": \"Cash Deposit\",\n  \"fee\" : \"20.00\",\n  \"payment\": [\n    {\n      \"IBAN\": \"13143123324\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"IBAN\": \"56754312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"IBAN\": \"097864312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n\n      \"IBAN\": \"345344312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"IBAN\": \"34534612323123\",\n      \"amount\": \"100.00\"\n    }\n  ]\n}",
+							"raw": "{\n  \"txnDate\": \"2021-January-21\",\n  \"amount\": \"500.00\",\n  \"currency\": \"ZAR\",\n  \"remarks\": \"\",\n  \"accountId\": \"2323423343453454\",\n  \"subtxnId\": \"Cash Deposit\",\n  \"fee\" : \"20.00\",\n  \"individualPayments\": [\n    {\n      \"accountNumber\": \"13143123324\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"accountNumber\": \"56754312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"accountNumber\": \"097864312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n\n      \"accountNumber\": \"345344312323123\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"accountNumber\": \"34534612323123\",\n      \"amount\": \"100.00\"\n    }\n  ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -476,7 +528,7 @@
 					"_postman_previewlanguage": null,
 					"header": null,
 					"cookie": [],
-					"body": "{\n  \"reference\": \"aqsasdas-asdasdq-afrwewe-12123\",\n  \"token\": \"372813\",\n  \"tokenExpiresBy\" : \"2021-January-26\"\n  \n}"
+					"body": "{\n  \"reference\": \"aqsasdas-asdasdq-afrwewe-12123\",\n  \"token\": \"372813\",\n  \"tokenExpiresBy\" : \"2021-January-26\",\n  \"individualPayments\": [\n    {\n      \"accountNumber\": \"13143123324\",\n      \"token\": \"342567\",\n      \"tokenExpiresBy\" : \"2021-January-26\",\n    },\n    {\n      \"accountNumber\": \"56754312323123\",\n      \"token\": \"875643\",\n      \"tokenExpiresBy\" : \"2021-January-26\",\n    },\n    {\n      \"accountNumber\": \"097864312323123\",\n      \"token\": \"980923\",\n      \"tokenExpiresBy\" : \"2021-January-26\",\n    },\n    {\n      \"accountNumber\": \"345344312323123\",\n      \"token\": \"658435\",\n      \"tokenExpiresBy\" : \"2021-January-26\",\n    },\n    {\n      \"accountNumber\": \"34534612323123\",\n      \"token\": \"256465\",\n      \"tokenExpiresBy\" : \"2021-January-26\",\n    }\n  ]\n}"
 				}
 			]
 		},
@@ -782,7 +834,7 @@
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"balance\": 100,\n    \"interest\": 0\n}"
+					"body": "{\n    \"balance\": 10000,\n    \"interest\": 25.23,\n    \"ibb\" : 10025.23\n}"
 				}
 			]
 		}
