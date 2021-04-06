@@ -837,6 +837,140 @@
 					"body": "{\n    \"balance\": 10000,\n    \"interest\": 25.23,\n    \"ibb\" : 10025.23\n}"
 				}
 			]
+		},
+		{
+			"name": "10. Trial Balance API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"There are 84 accounts\"] =  jsonData.totalElements === 84;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{adminUserToken}}"
+					},
+					{
+						"key": "User",
+						"value": "{{adminUser}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Tenant-Identifier",
+						"value": "{{tenantIdentifier}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{accountingUrl}}/accounting/v1/trialbalance?includeEmptyEntries=true",
+					"protocol": "http",
+					"host": [
+						"{{accountingUrl}}"
+					],
+					"path": [
+						"accounting",
+						"v1",
+						"trialbalance"
+					],
+					"query": [
+						{
+							"key": "includeEmptyEntries",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "11. Search Jouranal Entries",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"There are 84 accounts\"] =  jsonData.totalElements === 84;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{adminUserToken}}"
+					},
+					{
+						"key": "User",
+						"value": "{{adminUser}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Tenant-Identifier",
+						"value": "{{tenantIdentifier}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{accountingUrl}}/accounting/v1/journal?dateRange=2020-06-01..2021-03-31&account=8001&amount=100",
+					"protocol": "http",
+					"host": [
+						"{{accountingUrl}}"
+					],
+					"path": [
+						"accounting",
+						"v1",
+						"journal"
+					],
+					"query": [
+						{
+							"key": "dateRange",
+							"value": "2020-06-01..2021-03-31"
+						},
+						{
+							"key": "account",
+							"value": "8001"
+						},
+						{
+							"key": "amount",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
