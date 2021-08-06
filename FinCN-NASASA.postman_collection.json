@@ -147,6 +147,55 @@
 			"response": []
 		},
 		{
+			"name": "01.03 Keycloak Auth",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "fineractCN",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "operator",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "operatorPassword",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8180/auth/realms/fineract/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8180",
+					"path": [
+						"auth",
+						"realms",
+						"fineract",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "01.2 LOG IN TENANT ADMIN (operator)",
 			"event": [
 				{
@@ -545,7 +594,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"accountId\": \"99332223423445\",\n    \"requestCode\": \"qereqwe\",\n    \"routingCode\": \"erqeqwe\",\n    \"externalId\": \"reqeqwe\",\n    \"note\": \"note\",\n    \"amount\": {\n        \"amount\": 100,\n        \"currency\": \"EUR\"\n    }\n   // , \"subTxnId\": \"Non Cash\"\n}",
+					"raw": "{\n    \"accountId\": \"99332223423443\",\n    \"requestCode\": \"qereqwe\",\n    \"routingCode\": \"erqeqwe\",\n    \"externalId\": \"reqeqwe\",\n    \"note\": \"note\",\n    \"amount\": {\n        \"amount\": 100,\n        \"currency\": \"EUR\"\n    }\n    , \"subTxnId\": \"Non Cash\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -621,6 +670,114 @@
 						{
 							"key": "action",
 							"value": "DEPOSIT"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "0.6.02. WITHDRAWAL from Savings Account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{adminUserToken}}"
+					},
+					{
+						"key": "User",
+						"value": "{{adminUser}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Tenant-Identifier",
+						"value": "{{tenantIdentifier}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"accountId\": \"99332223423443\",\n    \"requestCode\": \"qereqwe\",\n    \"routingCode\": \"erqeqwe\",\n    \"externalId\": \"reqeqwe\",\n    \"note\": \"note\",\n    \"amount\": {\n        \"amount\": 100,\n        \"currency\": \"EUR\"\n    }\n    , \"subTxnId\": \"Non Cash\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{depositUrl}}/deposit/v1/transaction?action=WITHDRAWAL",
+					"protocol": "http",
+					"host": [
+						"{{depositUrl}}"
+					],
+					"path": [
+						"deposit",
+						"v1",
+						"transaction"
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "WITHDRAWAL"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "0.6.03. TRANSFER from Savings Account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{adminUserToken}}"
+					},
+					{
+						"key": "User",
+						"value": "{{adminUser}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Tenant-Identifier",
+						"value": "{{tenantIdentifier}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fromAccountId\": \"99332223423443\",\n    \"toAccountId\": \"99332223423447\",\n    \"requestCode\": \"qereqwe\",\n    \"routingCode\": \"erqeqwe\",\n    \"externalId\": \"reqeqwe\",\n    \"note\": \"note\",\n    \"amount\": {\n        \"amount\": 100,\n        \"currency\": \"EUR\"\n    }\n    , \"subTxnId\": \"Non Cash\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{depositUrl}}/deposit/v1/transaction?action=TRANSFER",
+					"protocol": "http",
+					"host": [
+						"{{depositUrl}}"
+					],
+					"path": [
+						"deposit",
+						"v1",
+						"transaction"
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "TRANSFER"
 						}
 					]
 				}
@@ -1004,7 +1161,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{depositUrl}}/deposit/v1/instances/99349593495934599349/statement",
+					"raw": "http://{{depositUrl}}/deposit/v1/instances/99332223423443/statement?fromDate=04.08.2021&toDate=06.08.2021",
 					"protocol": "http",
 					"host": [
 						"{{depositUrl}}"
@@ -1013,8 +1170,18 @@
 						"deposit",
 						"v1",
 						"instances",
-						"99349593495934599349",
+						"99332223423443",
 						"statement"
+					],
+					"query": [
+						{
+							"key": "fromDate",
+							"value": "04.08.2021"
+						},
+						{
+							"key": "toDate",
+							"value": "06.08.2021"
+						}
 					]
 				}
 			},
@@ -1379,7 +1546,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://{{accountingUrl}}/accounting/v1/journal?dateRange=2020-06-01..2021-03-31&account=8001&amount=100",
+					"raw": "http://{{accountingUrl}}/accounting/v1/journal?dateRange=2020-06-01Z00.00.00..2021-03-31Z00.00.00 &account=8001&amount=100",
 					"protocol": "http",
 					"host": [
 						"{{accountingUrl}}"
@@ -1392,7 +1559,7 @@
 					"query": [
 						{
 							"key": "dateRange",
-							"value": "2020-06-01..2021-03-31"
+							"value": "2020-06-01Z00.00.00..2021-03-31Z00.00.00 "
 						},
 						{
 							"key": "account",
